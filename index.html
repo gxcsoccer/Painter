@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="utf-8" />
+        <title>Painter</title>
+        <script type="text/javascript" src="asset/js/util.js"></script>
+        <script type="text/javascript" src="asset/js/tools.js"></script>
+        <script type="text/javascript" src="asset/js/app.js"></script>
+        <style type="text/css" media="screen">
+        	#container {
+        		position: relative;
+        	}
+
+        	#canvas {
+        		position: relative;
+        	}
+
+        	#canvas_tmp {
+        		position: absolute;
+        		top: 0;
+        		left: 0;
+        	}
+        </style>
+    </head>
+    
+    <body>
+    	<form>
+	        <select id="tool_selector">
+	            <option value="0">Pen</option>
+	            <option value="1">Rectagle</option>
+	            <option value="2">Eraser</option>
+	        </select>
+	        <div id="container">
+		        <canvas id="canvas" width="600" height="400"></canvas>
+		        <canvas id="canvas_tmp" width="600" height="400"></canvas>
+		    </div>
+	    </form>
+    </body>
+</html>
