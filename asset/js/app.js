@@ -23,9 +23,9 @@
 
 			this.currentTool = pen;
 
-			window.addEventListener("mousedown", this, false);
-			window.addEventListener("mousemove", this, false);
-			window.addEventListener("mouseup", this, false);
+			this.canvas.addEventListener("mousedown", this, false);
+			this.canvas.addEventListener("mousemove", this, false);
+			this.canvas.addEventListener("mouseup", this, false);
 		},
 		handleEvent: function(evt) {
 			var x, y;
@@ -51,15 +51,28 @@
 		},
 		pickTool: function(index) {
 			this.currentTool = this.tools[index];
+		},
+		clear: function() {
+			this.contextT.clearRect(0, 0, 800, 400);
 		}
 	};
 
 	window.onload = function() {
-		var selector = document.getElementById("tool_selector");
+		document.getElementById("pen").onclick = function() {
+			App.pickTool(0);
+		};
 
-		selector.addEventListener('change', function(ev) {
-			App.pickTool(selector.value);
-		}, false);
+		document.getElementById("rect").onclick = function() {
+			App.pickTool(1);
+		};
+
+		document.getElementById("eraser").onclick = function() {
+			App.pickTool(2);
+		};
+
+		document.getElementById("clear").onclick = function() {
+			App.clear();
+		};
 
 		App.init();
 	};
