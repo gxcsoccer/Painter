@@ -3,6 +3,7 @@
  * @author XIAOCHEN GAO
  */
 (function() {
+	var lastX, lastY;
 
 	var App = {
 		init: function() {
@@ -26,25 +27,36 @@
 			this.canvas.addEventListener("mousedown", this, false);
 			this.canvas.addEventListener("mousemove", this, false);
 			this.canvas.addEventListener("mouseup", this, false);
+			this.canvas.addEventListener("mouseout", this, false);
 		},
 		handleEvent: function(evt) {
-			var x, y;
+			var x, y, type = evt.type;
 
-			// Get the mouse position relative to the canvas element.
-			if (evt.layerX || evt.layerX == 0) { // Firefox
-				x = evt.layerX;
-				y = evt.layerY;
-			} else if (evt.offsetX || evt.offsetX == 0) { // Opera
-				x = evt.offsetX;
-				y = evt.offsetY;
+			if (evt.type === "mouseout") {
+				x = lastX;
+				y = lastY;
+				type = "mouseup";
+			} else {
+
+				// Get the mouse position relative to the canvas element.
+				if (evt.layerX || evt.layerX == 0) { // Firefox
+					x = evt.layerX;
+					y = evt.layerY;
+				} else if (evt.offsetX || evt.offsetX == 0) { // Opera
+					x = evt.offsetX;
+					y = evt.offsetY;
+				}
+				lastX = x;
+				lastY = y;
 			}
 
-			this.currentTool && this.currentTool[evt.type]({
+			this.currentTool && this.currentTool[type]({
 				_x: x,
 				_y: y
 			});
 
-			if (evt.type == "mouseup") {
+			//console.log("x: " + x + ", y: " + y);
+			if (type == "mouseup") {
 				this.contextT.drawImage(canvas, 0, 0);
 				this.context.clearRect(0, 0, canvas.width, canvas.height);
 			}
