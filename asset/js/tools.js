@@ -10,32 +10,43 @@
 			this.canvasWidth = context.canvas.width;
 			this.canvasHeight = context.canvas.height;
 			this.activeDrawing = false;
+			this.points = [];
 		};
 
 	Pen.prototype = {
 		mousedown: function(evt) {
 			this.activeDrawing = true;
-			this.context.beginPath();
-			this.context.moveTo(evt._x, evt._y);
+			this.points.push([evt._x, evt._y]);
 		},
 		mousemove: function(evt) {
 			if (!this.activeDrawing) {
 				return;
 			}
 
-			this.context.lineTo(evt._x, evt._y);
-			this.context.stroke();
+			this.points.push([evt._x, evt._y]);
+			this.render();
 		},
 		mouseup: function(evt) {
 			if (this.activeDrawing) {
 				this.activeDrawing = false;
-				this.context.lineTo(evt._x, evt._y);
-				this.context.stroke();
-				this.context.closePath();
+				this.points.push([evt._x, evt._y]);
+				this.render();
+				this.points = [];
 			}
 		},
 		applySettings: function() {
 			// TODO:
+		},
+		render: function() {
+			var context = this.context;
+			context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+			context.beginPath();
+			context.moveTo(this.points[0][0], this.points[0][1]);
+			this.points.slice(1).forEach(function(point) {
+				context.lineTo(point[0], point[1]);
+			});
+			context.stroke();
+			context.closePath();
 		}
 	};
 
